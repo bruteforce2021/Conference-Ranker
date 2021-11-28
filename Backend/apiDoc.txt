@@ -1,0 +1,24 @@
+Conference Ranker api document
+
+1.  route: /query
+    data:   {
+                query:"machine learning"
+            }
+
+    ports: 
+            a.  {
+                    status: 200
+                    response:   [
+                                    {
+                                            ..........
+                                    }
+                                ]
+                }   
+            b.  {
+                    status: 201
+                    suggestion_query: ""
+                }   
+               
+            
+            
+
