@@ -17,6 +17,28 @@ function App() {
  const [pageCount, setPageCount] = useState(0)
  const [query, setQuery] = useState("Search");
 
+ const getPostData = (data) => {
+   return (
+     data.map(post => 
+     <tr>
+      <td>
+        <h2>{post.rank}</h2>
+      </td>
+      <td className="single line">{post.source}</td>
+      <td>     
+          {post.acronym}
+      </td>
+      <td className="left aligned">
+        <a target="blank" href={post.url}>{post.url}</a>
+      </td>
+      <td>
+      {post.title}
+      </td>
+    </tr>
+     )
+ )
+ 
+ }
  
  const getAllPosts = async (query) => {
 
