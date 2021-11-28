@@ -14,26 +14,41 @@ with open("data.json") as f:
 
 url = "http://portal.core.edu.au/conf-ranks/"
 
-for con in data_reader:#100 test
+# count=100
+
+for con in data_reader:
     # print(con[4])
     print(url+str(con[0])+"/json")
 
-    if con[0] == "" or con[4]=="":
+    if con[0] == "" or con[4] == "" or len(con[4]) > 2:
         continue
     response = urlopen(url+str(con[0])+"/json")
     data_json = json.loads(response.read())
     # print()
 
+    tagarray = []
+    s = str()
+    for element in con[1]:
+        if((element >= 'A' and element <= 'Z') or (element >= 'a' and element <= 'z')):
+            s = s+element
+        else:
+            if(len(s) > 2):
+                tagarray.append(s)
+            s = ""
 
-    
+    if(len(s) > 2):
+        tagarray.append(s)
+
+    tagarray.append(data_json['acronym'])
 
     conf_list.append({
         'conf_core_id': con[0],
-        'conf_name': con[1],
-        'conf_reference': con[2],
+        'conf_title': con[1],
+        'conf_acronym': con[2],
         'conf_source': con[3],
         'conf_url': data_json['url'],
         'conf_rank': con[4],
+        'conf_tags': tagarray
     })
 
     with open("data.json", 'w') as json_file:
@@ -41,19 +56,4 @@ for con in data_reader:#100 test
                   indent=4,
                   separators=(',', ': '))
 
-    # with open('data.json', 'r', encoding='utf-8') as f:
-    #     cur_data = json.loads(f.read())
-    #     cur_data.append(conf_data)
-    # with open('data.json', 'a', encoding='utf-8') as f:
-    #     json.dump(cur_data, f, indent=4)
-
 data.close()
-
-# menu_reader = csv.reader(menu)
-# menu_headings = next(menu_reader)
-# print(menu_headings[0].split(" ")[0]+"\t"+menu_headings[1].split(" ")[0]+"\t"+menu_headings[2].split(" ")[0])
-# items = []
-# for item in menu_reader:
-#     print(item[0]+"\t"+item[1]+"\t"+item[2])
-#     main_menu[item[0]] = (item[1],item[2])
-# menu.close()
